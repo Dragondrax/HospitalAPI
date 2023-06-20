@@ -10,7 +10,7 @@ using System.Reflection;
 namespace Hospital.Application.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class RegisterMedicalRecordController : Controller
     {
