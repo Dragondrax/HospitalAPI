@@ -14,7 +14,7 @@ namespace Hospital.Application.API.Controllers
 {
     [ApiController]
     [Route("api")]
-    //[Authorize]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
