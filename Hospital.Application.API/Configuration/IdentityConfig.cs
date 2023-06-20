@@ -1,10 +1,10 @@
-﻿using Hospital.Application.API.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Hospital.Application.API.Extensions;
+using Hospital.Application.API.Data.Context;
 
 namespace Hospital.Application.API.Configuration
 {
@@ -13,7 +13,10 @@ namespace Hospital.Application.API.Configuration
         public static IServiceCollection AddIdentityConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySQL(configuration.GetConnectionString("Hospital")));
+            {
+                options.UseMySQL(configuration.GetConnectionString("Hospital"));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()

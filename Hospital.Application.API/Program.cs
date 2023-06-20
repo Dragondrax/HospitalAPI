@@ -11,10 +11,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.ResolveDependencies();
 builder.Services.AddIdentityConfig(builder.Configuration);
 
 builder.Services.AddApiConfig();
+
 
 var app = builder.Build();
 
