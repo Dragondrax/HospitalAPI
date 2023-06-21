@@ -7,6 +7,6 @@ namespace Hospital.Application.API.Services.Interfaces
         Task<ResponseServicesModel> SaveAsync(RegisterMedicalRecordModel data);
         Task<ResponseServicesModel> GetAllAsync();
         Task<ResponseServicesModel> UpdateAsync(UpdateMedicalRecordModel data);
-        Task<ResponseServicesModel> DeleteAsync(Guid Id);
+        Task<ResponseServicesModel> DeleteAsync(string Id);
     }
 }

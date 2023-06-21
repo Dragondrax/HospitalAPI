@@ -15,6 +15,8 @@ namespace Hospital.Application.API.Configuration
             services.AddScoped<IIdentityServices, IdentityServices>();
             services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
             services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+            services.AddScoped<IUsersServices, UsersServices>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             return services;
         }
     }

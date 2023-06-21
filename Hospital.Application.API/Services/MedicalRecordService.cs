@@ -19,11 +19,11 @@ namespace Hospital.Application.API.Services
             _mapper = mapper;
         }
 
-        public async Task<ResponseServicesModel> DeleteAsync(Guid Id)
+        public async Task<ResponseServicesModel> DeleteAsync(string Id)
         {
             try
             {
-                var RegisterMedicalRecord = await _medicalRecordRepository.GetId(Id);
+                var RegisterMedicalRecord = await _medicalRecordRepository.GetId(Guid.Parse(Id));
                 if(RegisterMedicalRecord != null)
                 {
                     await _medicalRecordRepository.Remove(RegisterMedicalRecord);

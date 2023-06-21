@@ -21,17 +21,21 @@ namespace Hospital.Application.API.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IIdentityServices _createRoles;
+        private readonly IUsersServices _usersServices;
         private readonly IGenerateToken _generateToken;
 
         public UserController(SignInManager<IdentityUser> signInManager,
                               UserManager<IdentityUser> userManager,
-                              IIdentityServices createRoles, IGenerateToken generateToken, RoleManager<IdentityRole> roleManager)
+                              IIdentityServices createRoles, 
+                              IGenerateToken generateToken, 
+                              RoleManager<IdentityRole> roleManager, IUsersServices usersServices)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _createRoles = createRoles;
             _generateToken = generateToken;
             _roleManager = roleManager;
+            _usersServices = usersServices;
         }
 
         [HttpPost("NewUser")]
@@ -213,6 +217,88 @@ namespace Hospital.Application.API.Controllers
                         Object = result.Errors,
                         Message = "Ocorreu um erro ao atualizar um usuário",
                         MessageError = result.Errors.First().ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"O Processo falhou na etapa: {this.ControllerContext.RouteData.Values["controller"].ToString()} - {MethodBase.GetCurrentMethod().DeclaringType.FullName} retornando o erro: {ex.Message} na linha: {ex.LineNumber()}");
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ex.Message
+                });
+            }
+        }
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string Id)
+        {
+            try
+            {
+                var user = await _userManager.FindByIdAsync(Id);
+
+                var result = await _userManager.DeleteAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return Ok(new ResponseMessage
+                    {
+                        Success = true,
+                        Object = null,
+                        Message = "Usuario Deletado com Sucesso",
+                        MessageError = ""
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ResponseMessage
+                    {
+                        Success = false,
+                        Object = result.Errors,
+                        Message = "Ocorreu um erro ao deletar um usuário",
+                        MessageError = result.Errors.First().ToString()
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"O Processo falhou na etapa: {this.ControllerContext.RouteData.Values["controller"].ToString()} - {MethodBase.GetCurrentMethod().DeclaringType.FullName} retornando o erro: {ex.Message} na linha: {ex.LineNumber()}");
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ex.Message
+                });
+            }
+        }
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _usersServices.GetAllUsers();
+
+                if (users is not null)
+                {
+                    return Ok(new ResponseMessage
+                    {
+                        Success = true,
+                        Object = users,
+                        Message = "Sucesso",
+                        MessageError = ""
+                    });
+                }
+                else
+                {
+                    return BadRequest(new ResponseMessage
+                    {
+                        Success = false,
+                        Object = null,
+                        Message = "Ocorreu um erro ao atualizar um usuário",
+                        MessageError = ""
                     });
                 }
             }

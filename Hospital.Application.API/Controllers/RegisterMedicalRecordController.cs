@@ -129,7 +129,7 @@ namespace Hospital.Application.API.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteMedicalRecord(Guid Id)
+        public async Task<IActionResult> DeleteMedicalRecord(string Id)
         {
             try
             {
