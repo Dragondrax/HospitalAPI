@@ -14,7 +14,7 @@ namespace Hospital.Application.API.Controllers
 {
     [ApiController]
     [Route("api")]
-    [Authorize]
+    //[Authorize]
     public class UserController : Controller
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -109,6 +109,97 @@ namespace Hospital.Application.API.Controllers
                     Message = "Usuario ou Senha Incorretos",
                     MessageError = ""
                 });
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"O Processo falhou na etapa: {this.ControllerContext.RouteData.Values["controller"].ToString()} - {MethodBase.GetCurrentMethod().DeclaringType.FullName} retornando o erro: {ex.Message} na linha: {ex.LineNumber()}");
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ex.Message
+                });
+            }
+        }
+        [HttpGet("ReturnPictureProfile")]
+        public async Task<IActionResult> ReturnPictureProfile(string UserId)
+        {
+            try
+            {
+                var resultSavePicture = await _usersServices.ReturnPictureProfile(UserId);
+
+                if (resultSavePicture is not null)
+                {
+                    return Ok(new ResponseMessage
+                    {
+                        Success = true,
+                        Object = resultSavePicture,
+                        Message = "Sucesso",
+                        MessageError = ""
+                    });
+                }
+
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ""
+                });
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"O Processo falhou na etapa: {this.ControllerContext.RouteData.Values["controller"].ToString()} - {MethodBase.GetCurrentMethod().DeclaringType.FullName} retornando o erro: {ex.Message} na linha: {ex.LineNumber()}");
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ex.Message
+                });
+            }
+        }
+
+        [HttpPost("RegisterPicture")]
+        public async Task<IActionResult> RegisterPicture([FromForm] FormFileModel data)
+        {
+            try
+            {
+                string extensao = Path.GetExtension(data.file.FileName).ToUpper();
+                string[] extensoesValidas = new string[] { ".JPG", ".PNG", ".JPEG" };
+
+                if (!extensoesValidas.Contains(extensao))
+                    return BadRequest(new ResponseMessage
+                    {
+                        Success = false,
+                        Object = null,
+                        Message = "Voce deve enviar uma imagem png ou jpg",
+                        MessageError = "O Tipo de Arquivo Não é Válido"
+                    });
+
+                var resultSavePicture = await _usersServices.SavePictureFile(data);
+
+                if (resultSavePicture)
+                {
+                    return Ok(new ResponseMessage
+                    {
+                        Success = true,
+                        Object = null,
+                        Message = "Imagem Salva com Sucesso",
+                        MessageError = ""
+                    });
+                }
+
+                return BadRequest(new ResponseMessage
+                {
+                    Success = false,
+                    Object = null,
+                    Message = "Ops, parece que temos um problema! Tente novamente mais tarde ou contate um Administrador",
+                    MessageError = ""
+                });
+
             }
             catch (Exception ex)
             {
