@@ -3,6 +3,7 @@ using System;
 using Hospital.Application.API.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital.Application.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApiIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230621233430_Tb_PicturesPath")]
+    partial class Tb_PicturesPath
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

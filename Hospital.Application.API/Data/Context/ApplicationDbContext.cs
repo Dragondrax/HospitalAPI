@@ -11,6 +11,7 @@ namespace Hospital.Application.API.Data.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<RegisterMedicalRecordEntitie> Tb_MedicalRecord { get; set; }
+        public DbSet<PicturePathEntitie> Tb_PicturesPath { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

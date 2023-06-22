@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -28,5 +28,23 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="FilesPicture\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="FilesPicture\320a9652-55cd-431c-a5e4-3482646efa68.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="FilesPicture\320a9652-55cd-431c-a5e4-3482646efa68.png" />
+    </ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="FilesPicture\ " />
+	</ItemGroup>
 
 </Project>

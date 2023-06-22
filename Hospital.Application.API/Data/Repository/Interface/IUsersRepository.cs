@@ -9,5 +9,7 @@ namespace Hospital.Application.API.Data.Repository.Interface
     public interface IUsersRepository
     {
         Task<IEnumerable<UserResponseModel>> GetUsersAllAsync();
+        Task<bool> SavePathImages(string path, string UserId);
+        Task<string> ReturnPathPicture(string UserId);
     }
 }
