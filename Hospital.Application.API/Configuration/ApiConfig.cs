@@ -15,21 +15,14 @@ namespace Hospital.Application.API.Configuration
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Development",
+                options.AddPolicy("AllowAllButCredentials",
                     builder =>
+                    {
                         builder
                         .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
-
-
-                options.AddPolicy("Production",
-                    builder =>
-                        builder
-                            .WithMethods("GET")
-                            .WithOrigins("https://hospital.com.br")
-                            .SetIsOriginAllowedToAllowWildcardSubdomains()
-                            .AllowAnyHeader());
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                    });
             });
 
             SerilogConfiguration.AddSerilogApi();
@@ -41,6 +34,8 @@ namespace Hospital.Application.API.Configuration
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+
+            app.UseCors("AllowAllButCredentials");
 
             app.UseHttpsRedirection();
 

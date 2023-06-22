@@ -1,4 +1,6 @@
-﻿using Hospital.Application.API.Data;
+﻿using Hospital.Application.API.Data.Context;
+using Hospital.Application.API.Data.Repository;
+using Hospital.Application.API.Data.Repository.Interface;
 using Hospital.Application.API.Services;
 using Hospital.Application.API.Services.Interfaces;
 
@@ -11,6 +13,10 @@ namespace Hospital.Application.API.Configuration
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<IGenerateToken, GenarateToken>(); 
             services.AddScoped<IIdentityServices, IdentityServices>();
+            services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+            services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+            services.AddScoped<IUsersServices, UsersServices>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             return services;
         }
     }
