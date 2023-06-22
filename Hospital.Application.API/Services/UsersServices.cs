@@ -46,7 +46,6 @@ namespace Hospital.Application.API.Services
 
                 using (Stream stream = new FileStream(path, FileMode.Create))
                 {
-                    //320a9652-55cd-431c-a5e4-3482646efa68
                     formFile.file.CopyTo(stream);
                 }
 
