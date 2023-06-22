@@ -64,7 +64,6 @@ namespace Hospital.Application.API.Services
             var actualPath = Directory.GetCurrentDirectory();
             var parentPath = Directory.GetParent(actualPath + "\\FilesPicture\\").FullName;
             var path = Path.Combine(parentPath, fileName);
-            //var path = @"C:\inetpub\sites\skydigital.appindigo.com.br\wwwroot\static\mock-images\avatars\" + fileName;
 
             return path;
         }
